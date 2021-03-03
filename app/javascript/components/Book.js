@@ -9,6 +9,7 @@ const Book = (props) => {
       <h1>
         {id}- {title}
       </h1>
+      <p>{author}</p>
     </div>
   );
 };
