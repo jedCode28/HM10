@@ -3,14 +3,17 @@ import axios from 'axios'
 
 
 const NewForm = (props) => {
-  const { addItem } = props
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
+  const { addBook, id, title: titleInit , author: authorInit } = props
+  const [title, setTitle] = useState(titleInit ? titleInit : '')
+  const [author, setAuthor] = useState(authorInit ? authorInit : '')
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formObj = {title, author}
     let res = await axios.post('/books', formObj)
+    addBook(res.data)
+    setTitle('')
+    setAuthor('')
     console.log(res.data);
   }
 

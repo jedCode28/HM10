@@ -4,6 +4,11 @@ import axios from "axios";
 import NewForm from './NewForm';
 
 const App = (props) => {
+  const handleError = (error) => {
+    console.log(error)
+    alert('Check the Console!!')
+  }
+
     const [books, setBooks] = useState([])
     
     const getBooks = async () => {
@@ -17,8 +22,26 @@ const App = (props) => {
       console.log("Please Work!")
     }
    
+    // const addBook = async (book) => {
+    //   console.log(book)
+    //   try{
+    //     let res = await axios.post('/items', {...book})
+    //     setBooks([response.data, ...books])
+    //   } catch(err){
+    //       handleError(err)
+    //   }
+      
+    // }
+
     const addBook = (book) => {
       setBooks([...books, book])
+    }
+
+    const deleteBook = (id) => {
+      const filteredBooks = books.filter( book => {
+        return book.id !== id 
+      })
+      setBooks(filteredBooks)
     }
 
     return (
@@ -26,7 +49,7 @@ const App = (props) => {
         <h1>App Page</h1>
         <button onClick={getBooks}>Get Books From DataBase</button>
         <NewForm addBook={addBook} />
-        <Books books={books} />
+        <Books books={books} deleteBook={deleteBook} />
       </div>
     );
 }
