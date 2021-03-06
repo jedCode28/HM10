@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import NewForm from './NewForm'
 
 const Book = (props) => {
-
   const { title, author, id , deleteBook} = props;
-
-  // const [showForm, setShowForm] = useState(false)
+  const [showForm, setShowForm] = useState(false)
   
   const deleteHandler = async (id) => {
     let res = await axios.delete(`/books/${id}`)
@@ -13,19 +12,30 @@ const Book = (props) => {
   }
 
   const editHandler = async () => {
+    let res = await axios.get(`/books/${id}/edit`)
     console.log('edit button was pushed')
   }
  
+  const renderBook =() => {
+    return(
+      <>
+        <div className="book-container">
+          <h1>{id}- Title: {title}</h1>
+          <p>Author: {author}</p>
+          <div>
+            <button onClick={() => deleteHandler(id)}>delete</button> {/*DIFFERENT THAN LECTURE*/}
+            <button onClick={() => editHandler(id)}>edit</button>     {/*DIFFERENT THAN LECTURE*/}
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return (
-    <div className="book-container">
-      <h1>
-        {id}- Title: {title}
-        <p>
-        <button onClick={() => deleteHandler(id)}>delete</button>
-        <button onClick={() => editHandler(id)}>edit</button>
-        </p>
-      </h1>
-      <p>Author: {author}</p>
+    
+    <div>
+      {!showForm && renderBook() }
+      {showForm && <NewForm />}
     </div>
   );
 };

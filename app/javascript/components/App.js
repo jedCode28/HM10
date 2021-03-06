@@ -33,11 +33,11 @@ const App = (props) => {
       
     // }
 
-    const addBook = (book) => {
+    const addBook = (book) => {        
       setBooks([...books, book])
     }
 
-    const deleteBook = (id) => {
+    const deleteBook = (id) => {                       // CHANGE TO ASYNC !
       const filteredBooks = books.filter( book => {
         return book.id !== id 
       })
