@@ -21,23 +21,34 @@ const App = (props) => {
     const getBook = () => {
       console.log("Please Work!")
     }
-   
-    // const addBook = async (book) => {
-    //   console.log(book)
-    //   try{
-    //     let res = await axios.post('/items', {...book})
-    //     setBooks([response.data, ...books])
-    //   } catch(err){
-    //       handleError(err)
-    //   }
-      
-    // }
 
-    const addBook = (book) => {        
-      setBooks([...books, book])
+    const addBook = async (obj) => {   
+      console.log(obj)
+      try{
+        let res = await axios.post(`/books`, {...obj})
+        setBooks([...books, res.data])
+      } catch(err){
+        handleError(err)
+      }     
     }
 
-    const deleteBook = (id) => {                       // CHANGE TO ASYNC !
+    const updateBook = async (bookObj, id) => {
+      try{
+      let res = await axios.put(`/books/${id}`, bookObj)
+      } catch(err){
+        let updateBooks = books.map(book => {
+          if(book.id !== id) {
+            return book
+          } else {
+            return {...book,...bookObj}
+          }
+
+        })
+        setBooks(updateBooks)
+      }
+    }
+
+    const deleteBook = (id) => {                       // CHANGE TO ASYNC ? Nah, its just state mem...
       const filteredBooks = books.filter( book => {
         return book.id !== id 
       })
@@ -49,11 +60,10 @@ const App = (props) => {
         <h1>App Page</h1>
         <button onClick={getBooks}>Get Books From DataBase</button>
         <NewForm addBook={addBook} />
-        <Books books={books} deleteBook={deleteBook} />
+        <Books updateBook={updateBook} books={books} deleteBook={deleteBook} />
       </div>
     );
 }
 
 export default App;
 
-// THIS IS A COMMENT FOR GITTT

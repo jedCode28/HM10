@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import NewForm from './NewForm'
 
 const Book = (props) => {
-  const { title, author, id , deleteBook} = props;
+  const { title, author, id , deleteBook, updateBook} = props;
   const [showForm, setShowForm] = useState(false)
   
   const deleteHandler = async (id) => {
@@ -23,8 +23,8 @@ const Book = (props) => {
           <h1>{id}- Title: {title}</h1>
           <p>Author: {author}</p>
           <div>
-            <button onClick={() => deleteHandler(id)}>delete</button> {/*DIFFERENT THAN LECTURE*/}
-            <button onClick={() => editHandler(id)}>edit</button>     {/*DIFFERENT THAN LECTURE*/}
+            <button onClick={() => deleteHandler(id)}>delete</button>        {/*DIFFERENT THAN LECTURE*/}
+            <button onClick={() => setShowForm(!showForm)}>edit</button>     {/*DIFFERENT THAN LECTURE*/}
           </div>
         </div>
       </>
@@ -35,7 +35,7 @@ const Book = (props) => {
     
     <div>
       {!showForm && renderBook() }
-      {showForm && <NewForm />}
+      {showForm && <NewForm updateBook={updateBook} id={id} setShowForm={setShowForm} title={title} author={author}/>}
     </div>
   );
 };
